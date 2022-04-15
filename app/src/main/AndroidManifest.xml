@@ -12,6 +12,12 @@
         <activity
             android:name=".FullscreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
+            android:label="activity_top_button"
+            android:theme="@style/Theme.ElysiumAdventure.Fullscreen" />
+        <activity
+            android:name=".TopButtonActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.ElysiumAdventure.Fullscreen">

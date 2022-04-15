@@ -4,6 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/CS 5520/Elysium-Adventure/app/src/main/res/layout/activity_fullscreen.xml" value="0.5541666666666667" />
+        <entry key="app/src/main/res/layout/activity_character_info_popup.xml" value="0.32395833333333335" />
+        <entry key="app/src/main/res/layout/activity_fullscreen.xml" value="0.23854166666666668" />
+        <entry key="app/src/main/res/layout/activity_top_button.xml" value="0.23854166666666668" />
       </map>
     </option>
   </component>
