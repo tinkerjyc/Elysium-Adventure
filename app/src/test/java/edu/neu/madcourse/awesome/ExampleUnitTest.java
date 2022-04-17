@@ -1,4 +1,4 @@
-package edu.neu.madcourse.interactivefeature;
+package edu.neu.madcourse.awesome;
 
 import org.junit.Test;
 

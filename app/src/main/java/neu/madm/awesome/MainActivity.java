@@ -1,4 +1,4 @@
-package edu.neu.madcourse.interactivefeature;
+package neu.madm.awesome;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
+import edu.neu.madcourse.awesome.R;
 
 public class MainActivity extends AppCompatActivity {
 

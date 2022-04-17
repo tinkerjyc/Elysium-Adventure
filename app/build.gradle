@@ -6,7 +6,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "edu.neu.madcourse.interactivefeature"
+        applicationId "neu.madm.awesome"
         minSdk 26
         targetSdk 32
         versionCode 1
