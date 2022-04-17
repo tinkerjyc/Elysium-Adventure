@@ -16,7 +16,6 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,15 +24,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
 public class TopButtonActivity extends AppCompatActivity {
+    private List<CharacterInfo> characterInfoList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,29 +77,31 @@ public class TopButtonActivity extends AppCompatActivity {
     public void onClickCharacterInfoButton(View view) {
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         DatabaseReference mCharacter = mDatabase.child("character1");
-        StringBuilder characterInformation = new StringBuilder();
         mCharacter.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot eachChildSnapshot :snapshot.getChildren()) {
-                    DataSnapshot info = eachChildSnapshot;
-                    characterInformation.append(info.getKey()).append(": ");
-                    if (info.getValue() instanceof java.util.HashMap) {
-                        //for (Map.Entry<String, String> skill : eachChildSnapshot.getValue())
-                        characterInformation.append(info.getValue().toString()).append("\n");
+                CharacterInfo characterInfo = new CharacterInfo();
+                for (DataSnapshot eachChildSnapshot : snapshot.getChildren()) {
+                    if (eachChildSnapshot.getKey().equals("name")) {
+                        characterInfo.setName((String) eachChildSnapshot.getValue());
+                    } else if (eachChildSnapshot.getKey().equals("gender")) {
+                        characterInfo.setGender((String) eachChildSnapshot.getValue());
+
                     } else {
-                        characterInformation.append(info.getValue()).append("\n");
+                        Map<String, List<String>> skill = ((HashMap<String, List<String>>) eachChildSnapshot.getValue());
+                        characterInfo.setSkills(skill);
                     }
                 }
-                //Log.d("Information",characterInformation.toString());
+                characterInfoList.add(characterInfo);
 
                 LayoutInflater layoutInflater = (LayoutInflater) TopButtonActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View customView = layoutInflater.inflate(R.layout.activity_character_info_popup,null);
+                View customView = layoutInflater.inflate(R.layout.activity_character_info_popup, null);
 
                 Button closePopupBtn = (Button) customView.findViewById(R.id.closePopupBtn);
-                TextView charaInfoPopWindow = (TextView)  customView.findViewById(R.id.infoPopWindowText);
-                charaInfoPopWindow.setText(characterInformation);
-                Log.d("Information",characterInformation.toString());
+                TextView charaInfoPopWindow = (TextView) customView.findViewById(R.id.infoPopWindowText);
+                charaInfoPopWindow.setText(characterInfoList.get(0).toString());
+                Log.d("Information", characterInfoList.get(0).toString());
+                //Log.d("Information", characterInfoList.get(0).);
 
                 //instantiate popup window
                 PopupWindow popupWindow = new PopupWindow(customView, ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
@@ -119,15 +118,14 @@ public class TopButtonActivity extends AppCompatActivity {
                     }
                 });
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 throw error.toException();
             }
         });
-
-
+        Log.d("information ", String.valueOf(characterInfoList.size()));
     }
+
 
     public void onClickInventoryButton(View view) {
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("/inventory");
@@ -135,10 +133,11 @@ public class TopButtonActivity extends AppCompatActivity {
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot sampleSnapshot: dataSnapshot.getChildren()) {
-                    Log.d(TAG, "onDataChange: sampleSnapshot "+sampleSnapshot.getKey()+" = "+sampleSnapshot.getValue());
+                for (DataSnapshot sampleSnapshot : dataSnapshot.getChildren()) {
+                    Log.d(TAG, "onDataChange: sampleSnapshot " + sampleSnapshot.getKey() + " = " + sampleSnapshot.getValue());
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 throw databaseError.toException(); // don't ignore errors
