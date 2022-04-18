@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "564055265062",
+    "firebase_url": "https://cs5520-elysium-adventure-default-rtdb.firebaseio.com",
+    "project_id": "cs5520-elysium-adventure",
+    "storage_bucket": "cs5520-elysium-adventure.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564055265062:android:813889556c7bae9f657be7",
+        "android_client_info": {
+          "package_name": "neu.madm.awesome"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "564055265062-fig45oq4a01ag035ulcu3arlqnvjqc35.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQbiddWHIgypmWlhAHVzGZXEu9-qSIaBE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "564055265062-fig45oq4a01ag035ulcu3arlqnvjqc35.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="edu.neu.madcourse.awesome">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="neu.madm.awesome">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.InteractiveFeature">
+        android:theme="@style/Theme.InteractiveFeature"
+        android:appComponentFactory="@string/app_name"
+        tools:replace="android:appComponentFactory">
+        <activity
+            android:name="neu.madm.awesome.BagActivity"
+            android:exported="false" />
         <activity
             android:name="neu.madm.awesome.MainActivity"
             android:exported="true">
@@ -19,5 +28,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
