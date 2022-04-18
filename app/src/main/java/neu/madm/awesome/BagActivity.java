@@ -40,7 +40,7 @@ public class BagActivity extends AppCompatActivity {
 
         mUploads = new ArrayList<>();
 
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("inventory");
 
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override

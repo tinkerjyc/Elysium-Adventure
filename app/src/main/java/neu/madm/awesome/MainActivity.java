@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ProgressBar;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -71,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mStorageRef = FirebaseStorage.getInstance().getReference("playerBag");
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("playerBag");
+        mStorageRef = FirebaseStorage.getInstance().getReference("inventory");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("inventory");
     }
 
     public void knifeWithBloodImageOnClick(View v) {
@@ -155,8 +156,7 @@ public class MainActivity extends AppCompatActivity {
     {
         if (mImageUri != null)
         {
-            StorageReference fileReference = mStorageRef.child(currName
-                    + "." + getFileExtension(mImageUri));
+            StorageReference fileReference = mStorageRef.child(currName);
 
             mUploadTask = fileReference.putFile(mImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -171,10 +171,18 @@ public class MainActivity extends AppCompatActivity {
                             }, 500);
 
                             Toast.makeText(MainActivity.this, "Upload successful", Toast.LENGTH_LONG).show();
-                            Upload upload = new Upload(currName,
+/*                            Upload upload = new Upload(currName,
                                     fileReference.getDownloadUrl().toString(), currDescription);
                             String uploadId = mDatabaseRef.push().getKey();
-                            mDatabaseRef.child(uploadId).setValue(upload);
+                            mDatabaseRef.child(currName).setValue(upload);*/
+
+                            Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
+                            while (!urlTask.isSuccessful());
+                            Uri downloadUrl = urlTask.getResult();
+                            Upload upload = new Upload(currName, downloadUrl.toString(), currDescription);
+                            //String uploadId = mDatabaseRef.push().getKey();
+                            mDatabaseRef.child(currName).setValue(upload);
+
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

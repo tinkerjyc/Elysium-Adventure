@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 import java.util.List;
 
-public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ImageViewHolder> {
+public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
     private Context mContext;
     private List<Upload> mUploads;
 
@@ -19,13 +19,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ImageViewHolde
     }
 
     @Override
-    public ImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.each_item, parent, false);
-        return new ImageViewHolder(v);
+        return new ItemViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(ImageViewHolder holder, int position) {
+    public void onBindViewHolder(ItemViewHolder holder, int position) {
         Upload uploadCurrent = mUploads.get(position);
         holder.itemName.setText(uploadCurrent.getName());
         holder.itemDescription.setText(uploadCurrent.getDescription());
@@ -33,7 +33,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ImageViewHolde
                 .load(uploadCurrent.getImageUrl())
                 .placeholder(R.mipmap.ic_launcher_round)
                 .fit()
-                .centerCrop()
+                .centerInside()
                 .into(holder.imageView);
     }
 
@@ -42,12 +42,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ImageViewHolde
         return mUploads.size();
     }
 
-    public class ImageViewHolder extends RecyclerView.ViewHolder {
+    public class ItemViewHolder extends RecyclerView.ViewHolder {
         public TextView itemName;
         public ImageView imageView;
         public TextView itemDescription;
 
-        public ImageViewHolder(View itemView) {
+        public ItemViewHolder(View itemView) {
             super(itemView);
 
             itemName = itemView.findViewById(R.id.item_name);
