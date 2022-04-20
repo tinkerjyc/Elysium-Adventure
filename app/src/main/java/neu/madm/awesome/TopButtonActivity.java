@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -31,6 +33,9 @@ import java.util.Map;
 
 public class TopButtonActivity extends AppCompatActivity {
     private List<CharacterInfo> characterInfoList = new ArrayList<>();
+    private List<Inventory> inventoryList = new ArrayList<>();
+    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    //private FrameLayout topBtnFrame = (FrameLayout) findViewById(R.id.topBtnFrame);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +80,6 @@ public class TopButtonActivity extends AppCompatActivity {
 
 
     public void onClickCharacterInfoButton(View view) {
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         DatabaseReference mCharacter = mDatabase.child("character1");
         mCharacter.addValueEventListener(new ValueEventListener() {
             @Override
@@ -86,7 +90,6 @@ public class TopButtonActivity extends AppCompatActivity {
                         characterInfo.setName((String) eachChildSnapshot.getValue());
                     } else if (eachChildSnapshot.getKey().equals("gender")) {
                         characterInfo.setGender((String) eachChildSnapshot.getValue());
-
                     } else {
                         Map<String, List<String>> skill = ((HashMap<String, List<String>>) eachChildSnapshot.getValue());
                         characterInfo.setSkills(skill);
@@ -104,7 +107,7 @@ public class TopButtonActivity extends AppCompatActivity {
                 //Log.d("Information", characterInfoList.get(0).);
 
                 //instantiate popup window
-                PopupWindow popupWindow = new PopupWindow(customView, ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
+                PopupWindow popupWindow = new PopupWindow(customView, 900, 1400);
 
                 //display the popup window
                 FrameLayout topBtnFrame = (FrameLayout) findViewById(R.id.topBtnFrame);
@@ -128,14 +131,43 @@ public class TopButtonActivity extends AppCompatActivity {
 
 
     public void onClickInventoryButton(View view) {
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("/inventory");
-
-        mDatabase.addValueEventListener(new ValueEventListener() {
+        DatabaseReference mInventory = mDatabase.child("inventory");
+        mInventory.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot sampleSnapshot : dataSnapshot.getChildren()) {
-                    Log.d(TAG, "onDataChange: sampleSnapshot " + sampleSnapshot.getKey() + " = " + sampleSnapshot.getValue());
+                inventoryList.clear();
+                for (DataSnapshot eachChildSnapshot : dataSnapshot.getChildren()) {
+                    Map<String, String> inventoryMap = (Map<String, String>) eachChildSnapshot.getValue();
+                    Inventory inventory = new Inventory(
+                            inventoryMap.get("name"), inventoryMap.get("imageUrl"), inventoryMap.get("description")
+                    );
+                    inventoryList.add(inventory);
+                    Log.d("inventory", inventory.toString());
                 }
+
+                LayoutInflater layoutInflater = (LayoutInflater) TopButtonActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View customView = layoutInflater.inflate(R.layout.activity_inventory_popup, null);
+
+                Button closePopupBtn = (Button) customView.findViewById(R.id.closePopupBtnInventory);
+                TextView charaInfoPopWindow = (TextView) customView.findViewById(R.id.inventoryPopWindowText);
+                for (Inventory inventory : inventoryList) {
+                    charaInfoPopWindow.clearComposingText();
+                    charaInfoPopWindow.append(inventory.toString() + "\n");
+                }
+
+                //instantiate popup window
+                PopupWindow popupWindow = new PopupWindow(customView, 900, 1400);
+                //display the popup window
+                FrameLayout topBtnFrame = (FrameLayout) findViewById(R.id.topBtnFrame);
+                popupWindow.showAtLocation(topBtnFrame, Gravity.CENTER, 0, 0);
+
+                //close the popup window on button click
+                closePopupBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        popupWindow.dismiss();
+                    }
+                });
             }
 
             @Override
