@@ -4,9 +4,12 @@ import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -17,6 +20,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -33,14 +37,21 @@ import java.util.Map;
 
 public class TopButtonActivity extends AppCompatActivity {
     private List<CharacterInfo> characterInfoList = new ArrayList<>();
-    private List<Inventory> inventoryList = new ArrayList<>();
+    private List<Upload> inventoryList = new ArrayList<>();
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-    //private FrameLayout topBtnFrame = (FrameLayout) findViewById(R.id.topBtnFrame);
+    private LayoutInflater layoutInflater;
+    private View customView;
+    private ProgressBar progressBar;
+
+    private RecyclerView mRecyclerView;
+    private ItemAdapter mAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_top_button);
+        layoutInflater = (LayoutInflater) TopButtonActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -97,14 +108,12 @@ public class TopButtonActivity extends AppCompatActivity {
                 }
                 characterInfoList.add(characterInfo);
 
-                LayoutInflater layoutInflater = (LayoutInflater) TopButtonActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View customView = layoutInflater.inflate(R.layout.activity_character_info_popup, null);
+                customView = layoutInflater.inflate(R.layout.activity_character_info_popup, null);
 
                 Button closePopupBtn = (Button) customView.findViewById(R.id.closePopupBtn);
                 TextView charaInfoPopWindow = (TextView) customView.findViewById(R.id.infoPopWindowText);
                 charaInfoPopWindow.setText(characterInfoList.get(0).toString());
                 Log.d("Information", characterInfoList.get(0).toString());
-                //Log.d("Information", characterInfoList.get(0).);
 
                 //instantiate popup window
                 PopupWindow popupWindow = new PopupWindow(customView, 900, 1400);
@@ -113,7 +122,6 @@ public class TopButtonActivity extends AppCompatActivity {
                 FrameLayout topBtnFrame = (FrameLayout) findViewById(R.id.topBtnFrame);
                 popupWindow.showAtLocation(topBtnFrame, Gravity.CENTER, 0, 0);
 
-                //close the popup window on button click
                 closePopupBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -137,31 +145,29 @@ public class TopButtonActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 inventoryList.clear();
                 for (DataSnapshot eachChildSnapshot : dataSnapshot.getChildren()) {
-                    Map<String, String> inventoryMap = (Map<String, String>) eachChildSnapshot.getValue();
-                    Inventory inventory = new Inventory(
-                            inventoryMap.get("name"), inventoryMap.get("imageUrl"), inventoryMap.get("description")
-                    );
-                    inventoryList.add(inventory);
-                    Log.d("inventory", inventory.toString());
+                    Upload upload = eachChildSnapshot.getValue(Upload.class);
+                    inventoryList.add(upload);
                 }
 
-                LayoutInflater layoutInflater = (LayoutInflater) TopButtonActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View customView = layoutInflater.inflate(R.layout.activity_inventory_popup, null);
+                customView = layoutInflater.inflate(R.layout.activity_inventory_popup, null);
 
                 Button closePopupBtn = (Button) customView.findViewById(R.id.closePopupBtnInventory);
-                TextView charaInfoPopWindow = (TextView) customView.findViewById(R.id.inventoryPopWindowText);
-                for (Inventory inventory : inventoryList) {
-                    charaInfoPopWindow.clearComposingText();
-                    charaInfoPopWindow.append(inventory.toString() + "\n");
-                }
+                closePopupBtn.setBackgroundColor(Color.RED);
 
-                //instantiate popup window
+                progressBar = customView.findViewById(R.id.progress_circle);
+
+                mRecyclerView = customView.findViewById(R.id.recycler_view);
+                mRecyclerView.setHasFixedSize(true);
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(TopButtonActivity.this));
+                mAdapter = new ItemAdapter(TopButtonActivity.this, inventoryList);
+                mRecyclerView.setAdapter(mAdapter);
+                progressBar.setVisibility(View.INVISIBLE);
+
                 PopupWindow popupWindow = new PopupWindow(customView, 900, 1400);
                 //display the popup window
                 FrameLayout topBtnFrame = (FrameLayout) findViewById(R.id.topBtnFrame);
                 popupWindow.showAtLocation(topBtnFrame, Gravity.CENTER, 0, 0);
 
-                //close the popup window on button click
                 closePopupBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -172,7 +178,7 @@ public class TopButtonActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                throw databaseError.toException(); // don't ignore errors
+                throw databaseError.toException();
             }
         });
     }
