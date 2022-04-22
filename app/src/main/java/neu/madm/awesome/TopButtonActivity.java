@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,11 +39,11 @@ import java.util.Map;
 public class TopButtonActivity extends AppCompatActivity {
     private List<CharacterInfo> characterInfoList = new ArrayList<>();
     private List<Upload> inventoryList = new ArrayList<>();
+    private List<ChatLog> chatLogList = new ArrayList<>();
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     private LayoutInflater layoutInflater;
     private View customView;
     private ProgressBar progressBar;
-
     private RecyclerView mRecyclerView;
     private ItemAdapter mAdapter;
 
@@ -52,6 +53,14 @@ public class TopButtonActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_top_button);
         layoutInflater = (LayoutInflater) TopButtonActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        Button settingBtn = (Button) findViewById(R.id.settingbtn);
+        settingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(TopButtonActivity.this,SettingsActivity.class));
+            }
+        });
     }
 
     @Override
@@ -182,4 +191,39 @@ public class TopButtonActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void onclickChatLogbutton(View view){
+        DatabaseReference mChatlog = mDatabase.child("chatlog1");
+        mChatlog.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ChatLog chatlog = new ChatLog();
+                for (DataSnapshot eachChildSnapshot : snapshot.getChildren()){
+                    chatlog.setContent((String) eachChildSnapshot.getValue());
+                    chatLogList.add(chatlog);
+                }
+                customView = layoutInflater.inflate(R.layout.activity_chatlog_popup, null);
+                Button closePopupBtn = (Button) customView.findViewById(R.id.closePopupBtn);
+                TextView chatlogInfoPopWindow = (TextView) customView.findViewById(R.id.infoPopWindowText);
+                chatlogInfoPopWindow.setText(chatLogList.get(0).toString());
+                //instantiate popup window
+                PopupWindow popupWindow = new PopupWindow(customView, 900, 1400);
+
+                //display the popup window
+                FrameLayout topBtnFrame = (FrameLayout) findViewById(R.id.topBtnFrame);
+                popupWindow.showAtLocation(topBtnFrame, Gravity.CENTER, 0, 0);
+                closePopupBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        popupWindow.dismiss();
+                    }
+                });
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                throw error.toException();
+            }
+        });
+    }
+
 }

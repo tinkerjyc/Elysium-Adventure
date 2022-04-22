@@ -3,4 +3,15 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_top_button">TopButtonActivity</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Character</string>
+    <string name="sync_header">Background</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Character Name</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Background Music</string>
 </resources>
