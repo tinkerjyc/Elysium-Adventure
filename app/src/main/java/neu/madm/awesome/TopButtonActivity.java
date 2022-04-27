@@ -1,25 +1,22 @@
 package neu.madm.awesome;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -59,6 +56,24 @@ public class TopButtonActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(TopButtonActivity.this,SettingsActivity.class));
+            }
+        });
+
+        //Show choice frame
+        Button threeChoiceBtn = (Button) findViewById(R.id.showThreeChoice);
+        threeChoiceBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                showPopWindowThreeChoice(R.layout.activity_three_choice);
+            }
+        });
+        Button twoChoiceBtn = (Button) findViewById(R.id.showTwoChoice);
+        twoChoiceBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                showPopWindowThreeChoice(R.layout.activity_two_choice);
             }
         });
     }
@@ -225,5 +240,40 @@ public class TopButtonActivity extends AppCompatActivity {
             }
         });
     }
+    private void showPopWindowThreeChoice(int activity) {
+        customView = layoutInflater.inflate(activity, null);
+        PopupWindow popupWindow = new PopupWindow(customView,
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.WRAP_CONTENT);
 
+        ColorDrawable dw = new ColorDrawable(0xb0000000);
+        popupWindow.setBackgroundDrawable(dw);
+        popupWindow.setClippingEnabled(false);
+        popupWindow.setOutsideTouchable(true);
+
+        popupWindow.showAtLocation(TopButtonActivity.this.findViewById(R.id.showThreeChoice), Gravity.BOTTOM, 0, 0);
+
+        if (activity == R.layout.activity_three_choice) {
+            Button option1 = (Button) customView.findViewById(R.id.option1);
+            Button option2 = (Button) customView.findViewById(R.id.option2);
+            Button option3 = (Button) customView.findViewById(R.id.option3);
+
+            option1.setOnClickListener(new OptionReaderOnClickListener(mDatabase,"choice1/content"));
+            option2.setOnClickListener(new OptionReaderOnClickListener(mDatabase,"choice2/content"));
+            option3.setOnClickListener(new OptionReaderOnClickListener(mDatabase,"choice3/content"));
+        } else {
+            Button option4 = (Button) customView.findViewById(R.id.option4);
+            Button option5 = (Button) customView.findViewById(R.id.option5);
+
+            option4.setOnClickListener(new OptionReaderOnClickListener(mDatabase,"choice4/content"));
+            option5.setOnClickListener(new OptionReaderOnClickListener(mDatabase,"choice5/content"));
+        }
+
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                System.out.println("popWindow disappear");
+            }
+        });
+    }
 }

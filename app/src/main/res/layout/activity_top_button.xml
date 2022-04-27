@@ -7,39 +7,77 @@
     android:background="@color/white"
     android:theme="@style/ThemeOverlay.ElysiumAdventure.FullscreenContainer"
     tools:context=".TopButtonActivity"
-    android:id="@+id/topBtnFrame">
+    android:id="@+id/topBtnFrame"
+    >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <Button
-        android:id="@+id/character_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CharInfo"
-        android:onClick="onClickCharacterInfoButton"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/stop_progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Inv"
-        android:onClick="onClickInventoryButton"/>
+            <Button
+                android:id="@+id/character_info"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:onClick="onClickCharacterInfoButton"
+                android:text="Character Info"
+                android:textAllCaps="false" />
 
-        <Button
-            android:id="@+id/remove_actions"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ChatLog"
-            android:onClick="onclickChatLogbutton"/>
+            <Button
+                android:id="@+id/stop_progress"
+                android:layout_width="180dp"
+                android:layout_marginLeft="10dp"
+                android:layout_height="wrap_content"
+                android:onClick="onClickInventoryButton"
+                android:text="Inventory List"
+                android:textAllCaps="false"/>
 
-        <Button
-            android:id="@+id/settingbtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="setting" />
+            <Button
+                android:id="@+id/showThreeChoice"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="100dp"
+                android:text="Show Three Choices"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/showTwoChoice"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="100dp"
+                android:text="Show Two Choices"
+                android:textAllCaps="false" />
 
 
-    </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/remove_actions"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:onClick="onclickChatLogbutton"
+                android:text="Chat Log"
+                android:layout_gravity="right"
+                android:textAllCaps="false"/>
+
+            <Button
+                android:id="@+id/settingbtn"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="Setting"
+                android:layout_gravity="right"
+                android:textAllCaps="false"/>
+
+        </LinearLayout>
 
 </FrameLayout>
