@@ -9,11 +9,12 @@
         android:id="@+id/option1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
-        android:text="First" />
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
+        android:onClick="choiceOneOnClick"
+        android:text="exam the head" />
 
     <Button
         android:id="@+id/option2"
@@ -22,7 +23,8 @@
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:text="Second" />
+        android:onClick="choiceTwoOnClick"
+        android:text="exam the torso" />
 
     <Button
         android:id="@+id/option3"
@@ -31,6 +33,7 @@
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:text="Third" />
+        android:onClick="choiceThreeOnClick"
+        android:text="exam the Extremities" />
 
 </LinearLayout>

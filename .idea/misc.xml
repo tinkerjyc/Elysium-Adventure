@@ -11,11 +11,14 @@
         <entry key="..\:/Users/kitzu/Desktop/Elysium-Adventure/app/src/main/res/layout/activity_fullscreen.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/kitzu/Desktop/Elysium-Adventure/app/src/main/res/layout/activity_inventory_popup.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/kitzu/Desktop/Elysium-Adventure/app/src/main/res/layout/activity_three_choice.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/kitzu/Desktop/Elysium-Adventure/app/src/main/res/layout/activity_top_button.xml" value="0.22" />
+        <entry key="..\:/Users/kitzu/Desktop/Elysium-Adventure/app/src/main/res/layout/activity_top_button.xml" value="0.25" />
         <entry key="..\:/Users/kitzu/Desktop/Elysium-Adventure/app/src/main/res/layout/activity_two_choice.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/kitzu/Desktop/Elysium-Adventure/app/src/main/res/layout/burned_room.xml" value="0.33" />
+        <entry key="..\:/Users/kitzu/Desktop/Elysium-Adventure/app/src/main/res/layout/cloth.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/kitzu/Desktop/Elysium-Adventure/app/src/main/res/layout/dead_body.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/kitzu/Desktop/Elysium-Adventure/app/src/main/res/layout/document.xml" value="0.276268115942029" />
         <entry key="..\:/Users/kitzu/Desktop/Elysium-Adventure/app/src/main/res/layout/each_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/kitzu/Desktop/Elysium-Adventure/app/src/main/res/layout/gold_bracelet.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/kitzu/Desktop/Elysium-Adventure/app/src/main/res/layout/knife_with_blood.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/kitzu/Desktop/Elysium-Adventure/app/src/main/res/layout/officer.xml" value="0.28072916666666664" />
         <entry key="app/src/main/res/layout/activity_character_info_popup.xml" value="0.33541666666666664" />

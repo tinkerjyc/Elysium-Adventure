@@ -318,12 +318,19 @@ public class TopButtonActivity extends AppCompatActivity {
 
         if (activity == R.layout.activity_three_choice) {
             Button option1 = (Button) customView.findViewById(R.id.option1);
+            option1.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    // Do something in response to button click
+                    choiceOneOnClick(v);
+                }
+            });
+
             Button option2 = (Button) customView.findViewById(R.id.option2);
             Button option3 = (Button) customView.findViewById(R.id.option3);
 
-            option1.setOnClickListener(new OptionReaderOnClickListener(mDatabase,"choice1/content"));
-            option2.setOnClickListener(new OptionReaderOnClickListener(mDatabase,"choice2/content"));
-            option3.setOnClickListener(new OptionReaderOnClickListener(mDatabase,"choice3/content"));
+            //option1.setOnClickListener(new OptionReaderOnClickListener(mDatabase,"choice1/content"));
+            //option2.setOnClickListener(new OptionReaderOnClickListener(mDatabase,"choice2/content"));
+            //option3.setOnClickListener(new OptionReaderOnClickListener(mDatabase,"choice3/content"));
         } else {
             Button option4 = (Button) customView.findViewById(R.id.option4);
             Button option5 = (Button) customView.findViewById(R.id.option5);
@@ -390,6 +397,90 @@ public class TopButtonActivity extends AppCompatActivity {
                 } else {
                     currName = "DeadBody";
                     currDescription = "This is a dead body";
+                    TryPutIntoBag();
+                }
+            }
+        });
+
+        alertadd.show();
+    }
+
+    public void choiceOneOnClick(View v) {
+        //clickItemSelected();
+        mImageUri = Uri.parse("android.resource://neu.madm.awesome/" + R.drawable.file);
+        AlertDialog.Builder alertadd = new AlertDialog.Builder(TopButtonActivity.this);
+        LayoutInflater factory = LayoutInflater.from(TopButtonActivity.this);
+        final View view = factory.inflate(R.layout.document, null);
+        alertadd.setView(view);
+        alertadd.setTitle("The corpses mouth is clean, no ash or dust.");
+        alertadd.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dlg, int sumthin) {
+
+            }
+        });
+        alertadd.setNegativeButton("Put into bag", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dlg, int sumthin) {
+                if (mUploadTask != null && mUploadTask.isInProgress()) {
+                    Toast.makeText(TopButtonActivity.this, "in progress", Toast.LENGTH_SHORT).show();
+                } else {
+                    currName = "file";
+                    currDescription = "the corpse's mouth is clean, no ash or dust.";
+                    TryPutIntoBag();
+                }
+            }
+        });
+
+        alertadd.show();
+    }
+
+    public void choiceTwoOnClick(View v) {
+        //clickItemSelected();
+        mImageUri = Uri.parse("android.resource://neu.madm.awesome/" + R.drawable.clothes);
+        AlertDialog.Builder alertadd = new AlertDialog.Builder(TopButtonActivity.this);
+        LayoutInflater factory = LayoutInflater.from(TopButtonActivity.this);
+        final View view = factory.inflate(R.layout.cloth, null);
+        alertadd.setView(view);
+        alertadd.setTitle("A small unburned piece of cloth from behind the torso.");
+        alertadd.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dlg, int sumthin) {
+
+            }
+        });
+        alertadd.setNegativeButton("Put into bag", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dlg, int sumthin) {
+                if (mUploadTask != null && mUploadTask.isInProgress()) {
+                    Toast.makeText(TopButtonActivity.this, "in progress", Toast.LENGTH_SHORT).show();
+                } else {
+                    currName = "cloth";
+                    currDescription = "A small unburned piece of cloth from behind the torso.";
+                    TryPutIntoBag();
+                }
+            }
+        });
+
+        alertadd.show();
+    }
+
+    public void choiceThreeOnClick(View v) {
+        //clickItemSelected();
+        mImageUri = Uri.parse("android.resource://neu.madm.awesome/" + R.drawable.gold_bracelet);
+        AlertDialog.Builder alertadd = new AlertDialog.Builder(TopButtonActivity.this);
+        LayoutInflater factory = LayoutInflater.from(TopButtonActivity.this);
+        final View view = factory.inflate(R.layout.gold_bracelet, null);
+        alertadd.setView(view);
+        alertadd.setTitle("A precious gold bracelet");
+        alertadd.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dlg, int sumthin) {
+
+            }
+        });
+        alertadd.setNegativeButton("Put into bag", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dlg, int sumthin) {
+                if (mUploadTask != null && mUploadTask.isInProgress()) {
+                    Toast.makeText(TopButtonActivity.this, "in progress", Toast.LENGTH_SHORT).show();
+                } else {
+                    currName = "gold bracelet";
+                    currDescription = "A precious gold bracelet";
                     TryPutIntoBag();
                 }
             }
