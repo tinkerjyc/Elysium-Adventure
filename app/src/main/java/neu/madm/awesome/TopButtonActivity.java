@@ -94,7 +94,6 @@ public class TopButtonActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
 
-    private ProgressBar mProgressBar;
     private Uri mImageUri;
     private ImageButton mImageButton;
 
@@ -138,25 +137,6 @@ public class TopButtonActivity extends AppCompatActivity {
             }
         });
 
-        //Show choice frame
-        Button threeChoiceBtn = (Button) findViewById(R.id.showThreeChoice);
-        threeChoiceBtn.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                showPopWindowThreeChoice(R.layout.activity_three_choice);
-            }
-        });
-        Button twoChoiceBtn = (Button) findViewById(R.id.showTwoChoice);
-        twoChoiceBtn.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                showPopWindowThreeChoice(R.layout.activity_two_choice);
-            }
-        });
-
-        mProgressBar = findViewById(R.id.progress_bar);
         mStorageRef = FirebaseStorage.getInstance().getReference("inventory");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("inventory");
     }
@@ -334,7 +314,7 @@ public class TopButtonActivity extends AppCompatActivity {
         popupWindow.setClippingEnabled(false);
         popupWindow.setOutsideTouchable(true);
 
-        popupWindow.showAtLocation(TopButtonActivity.this.findViewById(R.id.showThreeChoice), Gravity.BOTTOM, 0, 0);
+        popupWindow.showAtLocation(TopButtonActivity.this.findViewById(R.id.imageView2), Gravity.BOTTOM, 0, 0);
 
         if (activity == R.layout.activity_three_choice) {
             Button option1 = (Button) customView.findViewById(R.id.option1);
@@ -482,12 +462,12 @@ public class TopButtonActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
+/*                            handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     mProgressBar.setProgress(0);
                                 }
-                            }, 500);
+                            }, 500);*/
 
                             Toast.makeText(TopButtonActivity.this, "Upload successful", Toast.LENGTH_LONG).show();
 /*                            Upload upload = new Upload(currName,
@@ -508,13 +488,6 @@ public class TopButtonActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText(TopButtonActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                            mProgressBar.setProgress((int) progress);
                         }
                     });
         }
