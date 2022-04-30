@@ -384,7 +384,7 @@ public class TopButtonActivity extends AppCompatActivity {
         LayoutInflater factory = LayoutInflater.from(TopButtonActivity.this);
         final View view = factory.inflate(R.layout.dead_body, null);
         alertadd.setView(view);
-        alertadd.setTitle("This is a dead body");
+        alertadd.setTitle("Start inference");
         alertadd.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dlg, int sumthin) {
 
@@ -395,8 +395,8 @@ public class TopButtonActivity extends AppCompatActivity {
                 if (mUploadTask != null && mUploadTask.isInProgress()) {
                     Toast.makeText(TopButtonActivity.this, "in progress", Toast.LENGTH_SHORT).show();
                 } else {
-                    currName = "DeadBody";
-                    currDescription = "This is a dead body";
+                    currName = "Conclusion";
+                    currDescription = "Victim was murdered before the fire. Clean month and unburnt cloth means stopped breathing and fell down before fire.";
                     TryPutIntoBag();
                 }
             }
